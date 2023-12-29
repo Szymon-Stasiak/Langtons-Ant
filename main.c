@@ -21,7 +21,7 @@ void print_help(char *program_name) {
 
 int main(int argc, char *argv[]) {
     int rows = 0, cols = 0, iterations = 0;
-    char *file_prefix = NULL;
+    char *filename = NULL;
     char ant_direction = '\0';
     char *map_path = NULL;
     double percentage = -1;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
                 iterations = atoi(optarg);
                 break;
             case 'f':
-                file_prefix = optarg;
+                filename= optarg;
                 break;
 	    case 'd':
                 ant_direction = optarg[0];
@@ -64,9 +64,9 @@ int main(int argc, char *argv[]) {
     UTF_16_SETUP;
 
     wprintf(L"%lc", ANT_RIGHT);
-
+   
     
-    display_t* dis = displayInit(cols, rows, percentage, 1, stdout);
+    display_t* dis = displayInit(cols, rows, percentage, 1,filename , stdout);
     dis->displayInfo = 1;
 
     ant_t* ant = antInit(dis, dis->width/2, dis->heigth/2);

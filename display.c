@@ -14,7 +14,7 @@ void addRandomBlackSquare(display_t* display, double percentage, int width, int 
 	}
 }
 
-display_t* displayInit(size_t width, size_t heigth,double percentage, int fps, FILE* displayOut) {
+display_t* displayInit(size_t width, size_t heigth,double percentage, int fps,char *filename, FILE* displayOut) {
     if(fps <= 0) return NULL;
 
     display_t* display = malloc(sizeof(display_t));
@@ -33,22 +33,44 @@ display_t* displayInit(size_t width, size_t heigth,double percentage, int fps, F
         free(display);
         return NULL;
     }
+    if(filename){
+    	FILE* file = fopen(filename, "r");
+    	    for(int i=0; i<heigth; i++) {
+		display->space[i] = malloc(sizeof(wchar_t) * width + 1);
+		if(!display->space[i]) {
+		    free(display->space);
+		    free(display);
+		    return NULL;
+		}
 
-    for(int i=0; i<heigth; i++) {
-        display->space[i] = malloc(sizeof(wchar_t) * width + 1);
-        if(!display->space[i]) {
-            free(display->space);
-            free(display);
-            return NULL;
-        }
+		for(int j=0; j<width; j++) {
+		    char field;
+		    fscanf(file," %c", &field);
+		    if(field=='X') {display->space[i][j] = BLACK_SQUARE;}
+		    else{
+		   	 display->space[i][j] = WHITE_SQUARE;
+		    }
+		}
+		display->space[i][width] = L'\0';
+	    }
+    	
+    }else{
+	    for(int i=0; i<heigth; i++) {
+		display->space[i] = malloc(sizeof(wchar_t) * width + 1);
+		if(!display->space[i]) {
+		    free(display->space);
+		    free(display);
+		    return NULL;
+		}
 
-        for(int j=0; j<width; j++) {
-            display->space[i][j] = WHITE_SQUARE;
-        }
-        display->space[i][width] = L'\0';
-    }
-    if(percentage >0){
-    	addRandomBlackSquare( display,  percentage,  width, heigth);
+		for(int j=0; j<width; j++) {
+		    display->space[i][j] = WHITE_SQUARE;
+		}
+		display->space[i][width] = L'\0';
+	    }
+	    if(percentage >0){
+	    	addRandomBlackSquare( display,  percentage,  width, heigth);
+		}
 	}
     return display;
 }

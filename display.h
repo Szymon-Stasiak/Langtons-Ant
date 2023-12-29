@@ -25,7 +25,7 @@ typedef struct Display {
 
 
 void addRandomBlackSquare(display_t*, double, int , int );
-display_t* displayInit(size_t, size_t, double ,int, FILE*);
+display_t* displayInit(size_t, size_t, double ,int,char *, FILE*);
 
 void printDisplay(display_t*, FILE*);
 int displayLoop(display_t*, int);
