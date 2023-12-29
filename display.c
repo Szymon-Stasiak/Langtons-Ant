@@ -1,6 +1,20 @@
 #include "display.h"
 
-display_t* displayInit(size_t width, size_t heigth, int fps, FILE* displayOut) {
+void addRandomBlackSquare(display_t* display, double percentage, int width, int heigth){
+	srand(time(NULL));
+	int amount = width*heigth*percentage/100;
+	for(int i=0; i<amount; i++){
+	int x = rand()%heigth;
+	int y = rand()%width;
+	if(display->space[x][y]==BLACK_SQUARE){
+		i--;
+		continue;
+	}
+	display->space[x][y]=BLACK_SQUARE;
+	}
+}
+
+display_t* displayInit(size_t width, size_t heigth,double percentage, int fps, FILE* displayOut) {
     if(fps <= 0) return NULL;
 
     display_t* display = malloc(sizeof(display_t));
@@ -33,9 +47,12 @@ display_t* displayInit(size_t width, size_t heigth, int fps, FILE* displayOut) {
         }
         display->space[i][width] = L'\0';
     }
-
+    if(percentage >0){
+    	addRandomBlackSquare( display,  percentage,  width, heigth);
+	}
     return display;
 }
+
 
 
 void printDisplay(display_t* dis, FILE* f) {

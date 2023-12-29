@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     char *file_prefix = NULL;
     char ant_direction = '\0';
     char *map_path = NULL;
-    int random_fill_percentage = -1;
+    double percentage = -1;
     int opt;
     while ((opt = getopt(argc, argv, "r:c:i:f:d:m:p:")) != -1) {
         switch (opt) {
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
                 map_path = optarg;
                 break;
             case 'p':
-                random_fill_percentage = atoi(optarg);
+                percentage = atoi(optarg);
                 break;
             default:
                 print_help(argv[0]);
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
     wprintf(L"%lc", ANT_RIGHT);
 
     
-    display_t* dis = displayInit(20, 10, 1, stdout);
+    display_t* dis = displayInit(cols, rows, percentage, 1, stdout);
     dis->displayInfo = 1;
 
     ant_t* ant = antInit(dis, dis->width/2, dis->heigth/2);
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
 
     
 
-    while(displayLoop(dis, 10)) {
+    while(displayLoop(dis, iterations)) {
         //if(moveAnt(ant, dis)) {
         //    break;
         //}
