@@ -32,8 +32,8 @@
 #define BOTTOM_RIGHT L'\u255D'    // ╝
 
 //Ant chars unicode codes
-#define ANT_LEFT L"\u2B98"        // ⮘
-#define ANT_TOP L"\u2B99"         // ⮙
-#define ANT_RIGHT L"\u2B9A"       // ⮚
-#define ANT_BOTTOM L"\u2B9B"      // ⮛
+#define ANT_LEFT L"◀"        // ⮘
+#define ANT_TOP L"▼"         // ⮙//wedlug mnie to powinno byc na odwrot ale tak dziala
+#define ANT_RIGHT L"▶"       // ⮚
+#define ANT_BOTTOM L"▲"      // ⮛
    

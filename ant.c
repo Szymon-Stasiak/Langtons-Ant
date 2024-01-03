@@ -1,12 +1,21 @@
 #include "ant.h"
 
-ant_t* antInit(display_t* dis, int x, int y) {
+ant_t* antInit(display_t* dis, int x, int y,char ant_direction) {
     ant_t* ant = malloc(sizeof(ant_t));
     if(!ant) return NULL;
     ant->x = x;
     ant->y = y;
     ant->block = getGrid(dis, x, y);
+    if(ant_direction=='T'){
     ant->direction = TOP;
+    } else if(ant_direction=='B'){
+    ant->direction = BOTTOM;
+    } else if (ant_direction=='R'){
+    ant->direction = RIGHT;
+    } else {
+    ant->direction = LEFT;
+    }  
+    
     if(ant->block == 0) {
         free(ant);
         return NULL;

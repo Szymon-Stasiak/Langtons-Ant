@@ -23,7 +23,7 @@ typedef struct Ant{
     wchar_t block;
 } ant_t;
 
-ant_t* antInit(display_t*, int, int);
+ant_t* antInit(display_t*, int, int,char);
 void rotateAnt(ant_t*, antDirection);
 int moveAnt(ant_t*, display_t*);
 
