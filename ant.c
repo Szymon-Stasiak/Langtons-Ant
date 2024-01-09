@@ -26,7 +26,33 @@ ant_t* antInit(display_t* dis, int x, int y,char ant_direction) {
 
 void rotateAnt(ant_t* ant, antDirection dir) {
     if(dir == TOP || dir == BOTTOM) return;
-    ant->direction = (antDirection)(((int)ant->direction + 1 + (int)dir)%4 - 1);
+    antDirection result = TOP;
+    switch (ant->direction)
+    {
+    case LEFT:
+        if(dir == LEFT) result = BOTTOM;
+        else result = TOP;
+        break;
+    
+    case RIGHT:
+        if(dir == LEFT) result = TOP;
+        else result = BOTTOM;
+        break;
+
+    case TOP:
+        if(dir == LEFT) result = LEFT;
+        else result = RIGHT;
+        break;
+
+    case BOTTOM:
+        if(dir == LEFT) result = RIGHT;
+        else result = LEFT;
+        break;
+
+    default:
+        return;
+    }
+    ant->direction = result;
 }
 
 int moveAnt(ant_t* ant, display_t* dis) {
