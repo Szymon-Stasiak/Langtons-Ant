@@ -7,16 +7,15 @@
 #include <stdio.h>
 
 void print_help(char *program_name) {
-    printf("Użycie: %s -m <liczba_wierszy> -n <liczba_kolumn> -i <liczba_iteracji> -f <nazwa_plikow> -d <kierunek_mrowki>\n", program_name);
-    printf("Opcje:\n");
-    printf("  -r <liczba_wierszy>         Liczba wierszy planszy\n");//works
-    printf("  -c <liczba_kolumn>          Liczba kolumn planszy\n");//works
-    printf("  -i <liczba_iteracji>        Liczba iteracji\n");//czasem cos sie wywala za wczesnie nwm czg//tak w okolicy jak zaczyna sie zaptl
-    printf("  -f <nazwa_plikow>           wczytanie podanej nazywy pilku\n"); //works
-    printf("  -d <kierunek_mrowki>        Początkowy kierunek mrówki (T,B,R ,L)\n");//works//todo validacja wejscia chcemy tylko TBRL
-    printf("  -m <sciezka_do_mapy>        Opcjonalne wczytanie mapy z naniesionymi już „czarnymi” polami i aktualną pozycją mrówki\n");//works
-    printf("  -p <procent_zapelnienia>    Opcjonalne wygenerowanie mapy z losowo ustawionymi „czarnymi” polami wg procentowego zapełnienia planszy\n");//works
-    printf(" -o <outputNameFile>\n");
+    printf("Użycie: %s -r <rows> -c <cols> -i <iterations> -d <direction> \n", program_name);
+    printf("Wszystkie oppcje:\n");
+    printf("  -r <rows>         Liczba wierszy planszy\n");//works
+    printf("  -c <cols>          Liczba kolumn planszy\n");//works
+    printf("  -i <iterations>        Liczba iteracji\n");//czasem cos sie wywala za wczesnie nwm czg//tak w okolicy jak zaczyna sie zaptl
+    printf("  -d <direction>       Początkowy kierunek mrówki (T,B,R ,L)\n");//works//todo validacja wejscia chcemy tylko TBRL
+    printf("  -f <file_name>        Opcjonalne wczytanie mapy z naniesionymi już „czarnymi” polami i aktualną pozycją mrówki\n");//works
+    printf("  -p <procent_zapelnienia>    Opcjonalne wygenerowanie mapy z losowo ustawionymi „czarnymi” polami wg procentowego zapełnienia planszy\n");
+    printf(" -o <outputNameFile>	Opcjonalne podanie nazwy pliku w ktorym beda wypisywane kolejne iteracje\n");       
     exit(EXIT_FAILURE);
 }
 
@@ -25,10 +24,9 @@ int main(int argc, char *argv[]) {
     char *filename = NULL;
     char *outputFile = NULL;
     char ant_direction = '\0';
-    char *map_path = NULL;
     double percentage = -1;
     int opt;
-    while ((opt = getopt(argc, argv, "r:c:i:f:d:m:p:o:")) != -1) {
+    while ((opt = getopt(argc, argv, "r:c:i:f:d:p:o:")) != -1) {
         switch (opt) {
 		case 'r':
                 rows = atoi(optarg);
@@ -44,9 +42,6 @@ int main(int argc, char *argv[]) {
                 break;
 	    case 'd':
                 ant_direction = optarg[0];
-                break;
-            case 'm':
-                map_path = optarg;
                 break;
             case 'p':
                 percentage = atoi(optarg);
