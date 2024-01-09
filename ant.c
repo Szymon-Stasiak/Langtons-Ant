@@ -80,7 +80,7 @@ int moveAnt(ant_t* ant, display_t* dis) {
     if((ch = getGrid(dis, ant->x, ant->y)) == 0) return -1;
     ant->block = ch;
     rotateAnt(ant, (ch == WHITE_SQUARE)? RIGHT : LEFT);
-    setGrid(dis, ant->x, ant->y, *(ANT_CHAR(ant->direction)));
+    setGrid(dis, ant->x, ant->y, *((ant->block == WHITE_SQUARE)? ANT_CHAR_W(ant->direction): ANT_CHAR_B(ant->direction)));
     return 0;
 }
 

@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
     wprintf(L"%lc", ANT_RIGHT);
    
     
-    display_t* dis = displayInit(cols, rows, percentage, 1,filename , outputFile);
+    display_t* dis = displayInit(cols, rows, percentage, 1,filename , stdout);
     dis->displayInfo = 1;
 
     ant_t* ant = antInit(dis, dis->width/2, dis->heigth/2, ant_direction);
