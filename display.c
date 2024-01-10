@@ -14,7 +14,7 @@ void addRandomBlackSquare(display_t* display, double percentage, int width, int 
 	}
 }
 
-display_t* displayInit(size_t width, size_t heigth,double percentage, int fps,char *filename, FILE* displayOut) {
+display_t* displayInit(size_t width, size_t heigth,double percentage, int fps,char *filename, char* displayOut) {
     if(fps <= 0) return NULL;
 
     display_t* display = malloc(sizeof(display_t));
@@ -100,21 +100,22 @@ void printDisplay(display_t* dis, FILE* f) {
 }
 
 int displayLoop(display_t* dis, int itLimit, float speed) {
+
     if(dis->stop) return 0;
     if((dis->iteration > itLimit && itLimit >= 0) || dis->stop) return 0;
 
-    if(dis->displayOut == NULL) {
+	FILE* out=stdout;
+    if(dis->displayOut != NULL) {
         char f_name[1000];
-        snprintf(f_name, 1000, "Ant_%d", dis->iteration);
-        dis->displayOut = fopen(f_name, "w");
+        snprintf(f_name, 1000, "%s_%d",dis->displayOut, dis->iteration);
+        out = fopen(f_name, "w");
 
     }
     if(speed != 0) SCREEN_CLEAR;
-    printDisplay(dis, dis->displayOut);
+    printDisplay(dis, out);
     if(speed != 0) SLEEP_S(0/*1/dis->fps*/);
-    if(dis->displayOut != stdout) {
-        fclose(dis->displayOut);
-        dis->displayOut = NULL;
+    if(out != stdout) {
+        fclose(out);
     }
     dis->iteration++;
     return 1;

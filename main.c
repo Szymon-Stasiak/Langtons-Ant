@@ -55,6 +55,11 @@ int main(int argc, char *argv[]) {
             default:
                 print_help(argv[0]);
         }
+    } 
+    
+    if(ant_direction != 'T' && ant_direction != 'B'  &&  ant_direction != 'R' && ant_direction != 'L'){
+            fprintf(stderr, "You have to use T B R or L \n");
+            print_help(argv[0]);
     }
 
  
@@ -63,7 +68,7 @@ int main(int argc, char *argv[]) {
         print_help(argv[0]);
     }
     
-    display_t* dis = displayInit(cols, rows, percentage, 1,filename , NULL);
+    display_t* dis = displayInit(cols, rows, percentage, 1,filename , outputFile);
     dis->displayInfo = 1;
 
     ant_t* ant = antInit(dis, dis->width/2, dis->heigth/2, ant_direction);

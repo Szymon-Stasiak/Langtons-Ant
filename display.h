@@ -21,12 +21,12 @@ typedef struct Display {
     int displayInfo;
 
     //Display output
-    FILE* displayOut;
+    char* displayOut;
 } display_t;
 
 
 void addRandomBlackSquare(display_t*, double, int , int );
-display_t* displayInit(size_t, size_t, double ,int,char *, FILE*);
+display_t* displayInit(size_t, size_t, double ,int,char *, char*);
 
 void printDisplay(display_t*, FILE*);
 int displayLoop(display_t*, int, float);
