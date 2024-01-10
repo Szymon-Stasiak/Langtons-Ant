@@ -111,9 +111,9 @@ int displayLoop(display_t* dis, int itLimit, float speed) {
         out = fopen(f_name, "w");
 
     }
-    if(speed != 0) SCREEN_CLEAR;
+    if(speed != 0 && out == stdout) SCREEN_CLEAR;
     printDisplay(dis, out);
-    if(speed != 0) SLEEP_S(0/*1/dis->fps*/);
+    if(out == stdout) SLEEP_S((speed == 0)?0:1/speed);
     if(out != stdout) {
         fclose(out);
     }

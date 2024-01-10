@@ -7,9 +7,9 @@ ant_t* antInit(display_t* dis, int x, int y,char ant_direction) {
     ant->y = y;
     ant->block = getGrid(dis, x, y);
     if(ant_direction=='T'){
-    ant->direction = TOP;
-    } else if(ant_direction=='B'){
     ant->direction = BOTTOM;
+    } else if(ant_direction=='B'){
+    ant->direction = TOP;
     } else if (ant_direction=='R'){
     ant->direction = RIGHT;
     } else {
@@ -20,6 +20,8 @@ ant_t* antInit(display_t* dis, int x, int y,char ant_direction) {
         free(ant);
         return NULL;
     }
+
+    setGrid(dis, ant->x, ant->y, *((ant->block == WHITE_SQUARE)? ANT_CHAR_W(ant->direction): ANT_CHAR_B(ant->direction)));
 
     return ant;
 }
@@ -79,7 +81,7 @@ int moveAnt(ant_t* ant, display_t* dis) {
     wchar_t ch;
     if((ch = getGrid(dis, ant->x, ant->y)) == 0) return -1;
     ant->block = ch;
-    rotateAnt(ant, (ch == WHITE_SQUARE)? RIGHT : LEFT);
+    rotateAnt(ant, (ch == WHITE_SQUARE)? LEFT : RIGHT);
     setGrid(dis, ant->x, ant->y, *((ant->block == WHITE_SQUARE)? ANT_CHAR_W(ant->direction): ANT_CHAR_B(ant->direction)));
     return 0;
 }
