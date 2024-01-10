@@ -46,7 +46,7 @@ display_t* displayInit(size_t width, size_t heigth,double percentage, int fps,ch
 		for(int j=0; j<width; j++) {
 		    char field;
 		    fscanf(file," %c", &field);
-		    if(field=='X') {display->space[i][j] = BLACK_SQUARE;}
+		    if(field=='BLACK_SQUARE') {display->space[i][j] = BLACK_SQUARE;}
 		    else{
 		   	 display->space[i][j] = WHITE_SQUARE;
 		    }
