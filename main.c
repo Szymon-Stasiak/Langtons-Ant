@@ -16,6 +16,7 @@ void print_help(char *program_name) {
     printf("  -f <file_name>        Opcjonalne wczytanie mapy z naniesionymi już „czarnymi” polami i aktualną pozycją mrówki\n");//works
     printf("  -p <procent_zapelnienia>    Opcjonalne wygenerowanie mapy z losowo ustawionymi „czarnymi” polami wg procentowego zapełnienia planszy\n");
     printf(" -o <outputNameFile>	Opcjonalne podanie nazwy pliku w ktorym beda wypisywane kolejne iteracje\n");       
+    printf(" -s <speed>	Opcjonalne podanie predkosci wypisywania dla 0 wypisanie wszystkich na raz im wartosc jest wieksza tym szybciej sa wypisywane\n");       
     exit(EXIT_FAILURE);
 }
 
@@ -28,8 +29,9 @@ int main(int argc, char *argv[]) {
     char *outputFile = NULL;
     char ant_direction = '\0';
     double percentage = -1;
+    int speed =0;
     int opt;
-    while ((opt = getopt(argc, argv, "r:c:i:f:d:p:o:")) != -1) {
+    while ((opt = getopt(argc, argv, "r:c:i:f:d:p:o:s:")) != -1) {
         switch (opt) {
 		case 'r':
                 rows = atoi(optarg);
@@ -52,19 +54,23 @@ int main(int argc, char *argv[]) {
             case 'o':
                 outputFile = optarg;
                 break;
+            case 's':
+            	speed = atoi(optarg);
+            	break;
             default:
                 print_help(argv[0]);
         }
     } 
     
     if(ant_direction != 'T' && ant_direction != 'B'  &&  ant_direction != 'R' && ant_direction != 'L'){
-            fprintf(stderr, "You have to use T B R or L \n");
+            fprintf(stderr, "Mozesz uzyc tylko B R albo L do ustalenia kierunku mrowki\n");
             print_help(argv[0]);
     }
+   
 
  
     if (rows <= 0 || cols <= 0 || iterations <= 0 || ant_direction == '\0') {
-        fprintf(stderr, "Not enough data \n");
+        fprintf(stderr, "Nie odpowiednia liczba argumentow \n");
         print_help(argv[0]);
     }
     
@@ -78,7 +84,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    while(displayLoop(dis, iterations, 0)) {
+    while(displayLoop(dis, iterations, speed)) {
        if(moveAnt(ant, dis)) {
            break;
         }
