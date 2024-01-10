@@ -21,6 +21,9 @@ void print_help(char *program_name) {
 }
 
 int main(int argc, char *argv[]) {
+    
+    UTF_16_SETUP;
+
     int rows = 0, cols = 0, iterations = 0;
     char *filename = NULL;
     char *outputFile = NULL;
@@ -64,14 +67,8 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Not enough data \n");
         print_help(argv[0]);
     }
-
-
-    UTF_16_SETUP;
-
-    wprintf(L"%lc", ANT_RIGHT);
-   
     
-    display_t* dis = displayInit(cols, rows, percentage, 1,filename , stdout);
+    display_t* dis = displayInit(cols, rows, percentage, 1,filename , NULL);
     dis->displayInfo = 1;
 
     ant_t* ant = antInit(dis, dis->width/2, dis->heigth/2, ant_direction);
@@ -81,9 +78,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    
-
-    while(displayLoop(dis, iterations)) {
+    while(displayLoop(dis, iterations, 0)) {
        if(moveAnt(ant, dis)) {
            break;
         }

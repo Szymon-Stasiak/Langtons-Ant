@@ -29,7 +29,7 @@ void addRandomBlackSquare(display_t*, double, int , int );
 display_t* displayInit(size_t, size_t, double ,int,char *, FILE*);
 
 void printDisplay(display_t*, FILE*);
-int displayLoop(display_t*, int);
+int displayLoop(display_t*, int, float);
 
 int setGrid(display_t*, int, int, wchar_t);
 wchar_t getGrid(display_t*, int, int);
