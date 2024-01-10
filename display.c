@@ -92,19 +92,30 @@ void printDisplay(display_t* dis, FILE* f) {
     }
     fwprintf(f, L"%lc\n", BOTTOM_RIGHT);
 
+    /*
     if(dis->displayInfo) {
         fwprintf(f, L"Iteracja ⋙  %d   FPS ⋙  %d\n", dis->iteration, dis->fps);
     }
+    */
 }
 
-int displayLoop(display_t* dis, int itLimit) {
+int displayLoop(display_t* dis, int itLimit, float speed) {
     if(dis->stop) return 0;
     if((dis->iteration > itLimit && itLimit >= 0) || dis->stop) return 0;
 
-    SCREEN_CLEAR;
-    printDisplay(dis, dis->displayOut);
-    SLEEP_S(1/dis->fps);
+    if(dis->displayOut == NULL) {
+        char f_name[1000];
+        snprintf(f_name, 1000, "Ant_%d", dis->iteration);
+        dis->displayOut = fopen(f_name, "w");
 
+    }
+    if(speed != 0) SCREEN_CLEAR;
+    printDisplay(dis, dis->displayOut);
+    if(speed != 0) SLEEP_S(0/*1/dis->fps*/);
+    if(dis->displayOut != stdout) {
+        fclose(dis->displayOut);
+        dis->displayOut = NULL;
+    }
     dis->iteration++;
     return 1;
 }
