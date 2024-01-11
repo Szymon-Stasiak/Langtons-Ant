@@ -33,27 +33,20 @@ display_t* displayInit(size_t width, size_t heigth,double percentage, int fps,ch
         free(display);
         return NULL;
     }
-    if(filename){
-    	FILE* file = fopen(filename, "r");
-    	    for(int i=0; i<heigth; i++) {
-		display->space[i] = malloc(sizeof(wchar_t) * width + 1);
-		if(!display->space[i]) {
-		    free(display->space);
-		    free(display);
-		    return NULL;
-		}
-
-		for(int j=0; j<width; j++) {
-		    char field;
-		    fscanf(file," %c", &field);
-		    if(field=='BLACK_SQUARE') {display->space[i][j] = BLACK_SQUARE;}
-		    else{
-		   	 display->space[i][j] = WHITE_SQUARE;
-		    }
-		}
-		display->space[i][width] = L'\0';
-	    }
-    	
+    if(filename) {
+        FILE* file = fopen(filename, "r");
+        wchar_t buffer;
+        for(int i=0; i<heigth; i++) {
+            display->space[i] = malloc(sizeof(wchar_t) * width + 1);
+            for(int j=0; j<width; j++) {
+                fwscanf(file, L"%lc", &buffer);
+                if(buffer == L'X') buffer = WHITE_SQUARE;
+                display->space[i][j] = buffer;
+            }
+            while (fgetwc(file) != L'\n') {}
+            display->space[i][width] = L'\0';
+        }
+        fclose(file);
     }else{
 	    for(int i=0; i<heigth; i++) {
 		display->space[i] = malloc(sizeof(wchar_t) * width + 1);
