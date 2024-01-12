@@ -33,36 +33,24 @@ display_t* displayInit(size_t width, size_t heigth,double percentage, int fps,ch
         free(display);
         return NULL;
     }
-    if(filename){
-    	FILE* file = fopen(filename, "r");
-    	if(!file){
-    		printf("Error reading file\n");
-    	}
-    	wchar_t field;
-    	for(int j=0; j<width+2; j++){
-    	  fwscanf(file," %lc", &field);
-    	}
-    	    for(int i=0; i<heigth; i++) {
-		display->space[i] = malloc(sizeof(wchar_t) * width + 1);
-		if(!display->space[i]) {
-		    free(display->space);
-		    free(display);
-		    return NULL;
-		}
-		  fwscanf(file," %lc", &field);
-		for(int j=1; j<width+1; j++) {
-		   
-		    fwscanf(file," %lc", &field);
-		    if(field=="X") {display->space[i][j-1] = BLACK_SQUARE;}
-		    else{
-		   	 display->space[i][j-1] = WHITE_SQUARE;
-		    }
-		}
-		fwscanf(file," %lc", &field);
-		display->space[i][width] = L'\0';
-	    }
-	    fclose(file);
-    	
+    if(filename) {
+        FILE* file = fopen(filename, "r");
+        wchar_t buffer;
+        for(int j=0; j<width+3; j++) {
+                fwscanf(file, L"%lc", &buffer);
+                }
+        for(int i=0; i<heigth; i++) {
+            display->space[i] = malloc(sizeof(wchar_t) * width + 1);
+            for(int j=0; j<width; j++) {
+                fwscanf(file, L"%lc", &buffer);
+                if(buffer == VERTICAL_L)fwscanf(file, L"%lc", &buffer);
+                if(buffer == L'X') buffer = WHITE_SQUARE;
+                display->space[i][j] = buffer;
+            }
+            while (fgetwc(file) != L'\n') {}
+            display->space[i][width] = L'\0';
+        }
+        fclose(file);
     }else{
 	    for(int i=0; i<heigth; i++) {
 		display->space[i] = malloc(sizeof(wchar_t) * width + 1);
@@ -101,11 +89,11 @@ void printDisplay(display_t* dis, FILE* f) {
     }
     fwprintf(f, L"%lc\n", BOTTOM_RIGHT);
 
-    /*
+    
     if(dis->displayInfo) {
-        fwprintf(f, L"Iteracja ⋙  %d   FPS ⋙  %d\n", dis->iteration, dis->fps);
+        fwprintf(f, L"Iteracja ⋙  %d \n", dis->iteration);
     }
-    */
+    
 }
 
 int displayLoop(display_t* dis, int itLimit, float speed) {
