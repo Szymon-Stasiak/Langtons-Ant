@@ -17,6 +17,9 @@ void print_help(char *program_name) {
     printf("  -p <procent_zapelnienia>    Opcjonalne wygenerowanie mapy z losowo ustawionymi „czarnymi” polami wg procentowego zapełnienia planszy\n");
     printf(" -o <outputNameFile>	Opcjonalne podanie nazwy pliku w ktorym beda wypisywane kolejne iteracje\n");       
     printf(" -s <speed>	Opcjonalne podanie predkosci wypisywania dla 0 wypisanie wszystkich na raz im wartosc jest wieksza tym szybciej sa wypisywane\n");       
+    printf(" -x <x>	Pozycja x mrowki\n");       
+    printf(" -y <y>	Pozycja y mrowki\n");       
+   
     exit(EXIT_FAILURE);
 }
 
@@ -31,7 +34,9 @@ int main(int argc, char *argv[]) {
     double percentage = -1;
     int speed =0;
     int opt;
-    while ((opt = getopt(argc, argv, "r:c:i:f:d:p:o:s:")) != -1) {
+    int x= -1;
+    int y= -1;
+    while ((opt = getopt(argc, argv, "r:c:i:f:d:p:o:s:x:y:")) != -1) {
         switch (opt) {
 		case 'r':
                 rows = atoi(optarg);
@@ -57,10 +62,17 @@ int main(int argc, char *argv[]) {
             case 's':
             	speed = atoi(optarg);
             	break;
+                   case 'x':
+            	x = atoi(optarg);
+            	break;
+                   case 'y':
+            	y = atoi(optarg);
+            	break;
             default:
                 print_help(argv[0]);
         }
     } 
+    
     
     if(ant_direction != 'T' && ant_direction != 'B'  &&  ant_direction != 'R' && ant_direction != 'L'){
             fprintf(stderr, "Mozesz uzyc tylko B R albo L do ustalenia kierunku mrowki\n");
@@ -77,7 +89,15 @@ int main(int argc, char *argv[]) {
     display_t* dis = displayInit(cols, rows, percentage, 1,filename , outputFile);
     dis->displayInfo = 1;
 
-    ant_t* ant = antInit(dis, dis->width/2, dis->heigth/2, ant_direction);
+    if(x < 0 || x > dis->width-1) {
+        x = dis->width/2;
+    }
+
+    
+    if(y < 0 || y > dis->heigth-1) {
+        y = dis->heigth/2;
+    }
+    ant_t* ant = antInit(dis, x, y, ant_direction);
 
     if(!ant) {
         fwprintf(stderr, L"Error initializing ant\n");
