@@ -36,9 +36,9 @@ display_t* displayInit(size_t width, size_t heigth,double percentage, int fps,ch
     if(filename) {
         FILE* file = fopen(filename, "r");
         wchar_t buffer;
-        for(int j=0; j<width+3; j++) {
+        for(int j=0; j<width+4; j++) {
                 fwscanf(file, L"%lc", &buffer);
-                }
+        }
         for(int i=0; i<heigth; i++) {
             display->space[i] = malloc(sizeof(wchar_t) * width + 1);
             for(int j=0; j<width; j++) {
